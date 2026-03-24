@@ -81,6 +81,7 @@ public class AuthController {
                 response.put("message", "Login successful");
                 response.put("user", user.getName());
                 response.put("email", user.getEmail());
+                response.put("role", user.getRole()); // Add role to response
                 response.put("token", token);
                 return ResponseEntity.ok(response);
             }
