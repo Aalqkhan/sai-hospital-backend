@@ -5,6 +5,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +16,9 @@ public class OtpService {
 
     @Autowired
     private JavaMailSender mailSender;
+
+    @Value("${spring.mail.username}")
+    private String fromEmail;
 
     // Temporary in-memory storage for OTPs.
     // Key: email or identifier, Value: OTP string
@@ -27,6 +31,7 @@ public class OtpService {
 
         try {
             SimpleMailMessage message = new SimpleMailMessage();
+            message.setFrom(fromEmail);
             message.setTo(email);
             message.setSubject("Sai Hospital - Verification Code");
             message.setText("Your OTP is: " + otp + "\n\nIf you did not request this, please ignore.");
@@ -57,6 +62,7 @@ public class OtpService {
 
         try {
             SimpleMailMessage message = new SimpleMailMessage();
+            message.setFrom(fromEmail);
             message.setTo(email);
             message.setSubject("Password Reset Request - Sai Hospital");
             message.setText(messageBody);
@@ -84,6 +90,7 @@ public class OtpService {
 
         try {
             SimpleMailMessage message = new SimpleMailMessage();
+            message.setFrom(fromEmail);
             message.setTo(email);
             message.setSubject("Password Reset Successful - Sai Hospital");
             message.setText(messageBody);
@@ -112,6 +119,7 @@ public class OtpService {
         if (contactEmail != null && !contactEmail.isEmpty()) {
             try {
                 SimpleMailMessage message = new SimpleMailMessage();
+                message.setFrom(fromEmail);
                 message.setTo(contactEmail);
                 message.setSubject(subject);
                 message.setText(messageBody);
